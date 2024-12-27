@@ -4,6 +4,6 @@ version=1.2
 versionCode=12
 author=MALWARE
 description=Ускорение устаревших серверов. ImMALWARE <3
-updateJson=https://raw.githubusercontent.com/deosync/zapret-but-ksu/refs/heads/main/update.json
+updateJson=https://raw.githubusercontent.com/deosync/zapret-but-ksu/main/update.json
 support=https://t.me/immalware_chat
 donate=https://www.donationalerts.com/r/notmalware
