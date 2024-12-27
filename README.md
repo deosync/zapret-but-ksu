@@ -1,4 +1,4 @@
-# Magisk модуль с zapret
+# KSU модуль с zapret
 
 ## Скачать тут: https://github.com/ImMALWARE/zapret-magisk/releases/download/3/zapret_module.zip
 
@@ -8,4 +8,4 @@
 
 Если всё равно не открывается, добавьте домен сайта в `/data/adb/zapret/DPI_list.txt`
 
-Для остановки/перезапуска zapret'a используйте кнопку **Action** в приложении Magisk.
+Для остановки/перезапуска zapret'a используйте кнопку su -c zapret stop/start в дериктории data/adb/modules/zapret/system/bin
