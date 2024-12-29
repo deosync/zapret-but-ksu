@@ -288,7 +288,7 @@ if [ "$1" == "start" ]; then
     config="$config --filter-udp=443 $hostlist --dpi-desync=fake --dpi-desync-repeats=6 --dpi-desync-fake-quic=/etc/tls_clienthello_www_google_com.bin --new";
     config="$config --filter-udp=50000-65535 --ipset=/etc/discord.txt --dpi-desync=fake --dpi-desync-any-protocol --dpi-desync-cutoff=d3 --dpi-desync-repeats=6 --new";
     config="$config --filter-tcp=80 $hostlist --dpi-desync=fake,split2 --dpi-desync-autottl=2 --dpi-desync-fooling=md5sig --new";
-    config="$config --filter-tcp=443 $hostlist --dpi-desync=fake --dpi-desync-repeats=6 --dpi-desync-repeats=6 --dpi-desync-fooling=md5sig --dpi-desync-fake-tls=/etc/tls
+    config="$config --filter-tcp=443 $hostlist --dpi-desync=fake --dpi-desync-repeats=6 --dpi-desync-repeats=6 --dpi-desync-fooling=md5sig --dpi-desync-fake-tls=/etc/tls";
 
     sysctl net.netfilter.nf_conntrack_tcp_be_liberal=1 > /dev/null;
     cbOrig="-m connbytes --connbytes-dir=original --connbytes-mode=packets --connbytes 1:12 -m mark ! --mark 0x40000000/0x40000000";
