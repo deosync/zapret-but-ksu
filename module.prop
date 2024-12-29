@@ -1,7 +1,7 @@
 id=zapret
 name=zapret
-version=1.2
-versionCode=12
+version=1.3
+versionCode=13
 author=MALWARE
 description=Ускорение устаревших серверов. ImMALWARE <3
 updateJson=https://raw.githubusercontent.com/deosync/zapret-but-ksu/main/update.json
