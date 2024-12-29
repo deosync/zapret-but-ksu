@@ -266,8 +266,6 @@ EOL
     chmod 666 "/data/adb/zapret/DPI_list.txt";
 fi;
 
-if ! [ -e "/data/adb/zapret/DPI_ignore.txt" ]; then echo -n "" > "/data/adb/zapret/DPI_ignore.txt"; chmod 666 "/data/adb/zapret/DPI_ignore.txt"; fi;
-
 pidof "$nfqws" > /dev/null && echo "zapret is running" || echo "zapret is not running"
 
 if [ "$1" == "start" ]; then
@@ -283,10 +281,9 @@ if [ "$1" == "start" ]; then
     use_iptables=$(check_iptables_support)
 
     echo "Starting zapret..."; 
-    hostlist="--hostlist-auto=/data/adb/zapret/DPI_list.txt --hostlist-exclude=/data/adb/zapret/DPI_ignore.txt";
-    config="--wf-tcp=80,443 --wf-udp=443,50000-65535";
-    config="$config --filter-udp=443 $hostlist --dpi-desync=fake --dpi-desync-repeats=6 --dpi-desync-fake-quic=/etc/quic_initial_www_google_com.bin --new";
-    config="$config --filter-udp=50000-65535 --ipset=/etc/discord.txt --dpi-desync=fake --dpi-desync-any-protocol --dpi-desync-cutoff=d3 --dpi-desync-repeats=6 --new";
+    hostlist="--hostlist=/data/adb/zapret/DPI_list.txt";
+    config="--filter-udp=443 $hostlist --dpi-desync=fake --dpi-desync-repeats=6 --dpi-desync-fake-quic=/etc/quic_initial_www_google_com.bin --new";
+    config="$config --filter-udp=50000-50099 --ipset=/etc/discord.txt --dpi-desync=fake --dpi-desync-any-protocol --dpi-desync-cutoff=d3 --dpi-desync-repeats=6 --new";
     config="$config --filter-tcp=80 $hostlist --dpi-desync=fake,split2 --dpi-desync-autottl=2 --dpi-desync-fooling=md5sig --new";
     config="$config --filter-tcp=443 $hostlist --dpi-desync=fake --dpi-desync-repeats=6 --dpi-desync-repeats=6 --dpi-desync-fooling=md5sig --dpi-desync-fake-tls=/etc/tls_clienthello_www_google_com.bin";
 
