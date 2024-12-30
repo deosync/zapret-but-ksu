@@ -1,6 +1,6 @@
 {
-    "version": "2.0",
-    "versionCode": 20,
+    "version": "1.3",
+    "versionCode": 13,
     "zipUrl": "https://github.com/deosync/zapret-but-ksu/releases/download/3/zapret_module.zip",
     "changelog": "https://raw.githubusercontent.com/deosync/zapret-but-ksu/main/README.md"
   }
