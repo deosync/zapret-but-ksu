@@ -1,9 +1,6 @@
 name: Release
 
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:  # Позволяет запускать workflow вручную
 
 jobs:
@@ -43,6 +40,6 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ env.new_tag }}  # Используем переменную окружения
-          files: release.zip
+          files: zapret_module.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
