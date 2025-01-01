@@ -22,7 +22,6 @@ jobs:
         id: get_previous_tag
         run: |
           echo "Tag: ${{ steps.previoustag.outputs.tag }}"
-          echo "Tag N2: ${{ git tag }}"
           if git tag | grep -q .; then
             previous_tag=$(git tag | sort -n | tail -n 1)  # Получаем максимальный тег
             new_tag=$((previous_tag + 1))
