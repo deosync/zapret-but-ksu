@@ -13,11 +13,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-
       - name: Create ZIP archive
         run: |
           zip -r release.zip . -x README.md update.json .github/*
@@ -25,13 +20,15 @@ jobs:
       - name: Get previous tag
         id: get_previous_tag
         run: |
-          echo "::set-output name=tag::$(git describe --tags --abbrev=0)"
+          previous_tag=$(git describe --tags --abbrev=0)
+          new_tag=$((previous_tag + 1))
+          echo "::set-output name=tag::$new_tag"
 
       - name: Create new release
         id: create_release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ steps.get_previous_tag.outputs.tag }}.1
+          tag: ${{ steps.get_previous_tag.outputs.tag }}
           files: release.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
