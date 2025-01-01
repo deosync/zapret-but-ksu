@@ -27,13 +27,13 @@ jobs:
           else
             new_tag=1
           fi
-          echo "::set-output name=tag::$new_tag"
+          echo "new_tag=${new_tag}" >> $GITHUB_ENV
 
       - name: Create new release
         id: create_release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ steps.get_previous_tag.outputs.tag }}
+          tag_name: ${{ env.new_tag }}  # Используем переменную окружения
           files: release.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
