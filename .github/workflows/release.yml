@@ -1,0 +1,37 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Create ZIP archive
+        run: |
+          zip -r release.zip . -x README.md update.json .github/*
+
+      - name: Get previous tag
+        id: get_previous_tag
+        run: |
+          echo "::set-output name=tag::$(git describe --tags --abbrev=0)"
+
+      - name: Create new release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag: ${{ steps.get_previous_tag.outputs.tag }}.1
+          files: release.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
