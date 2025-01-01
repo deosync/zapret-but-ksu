@@ -15,7 +15,7 @@ jobs:
 
       - name: Create ZIP archive
         run: |
-          zip -r zapret_module.zip . -x README.md update.json .github/* .git/*  # Исключаем .git и .github
+          zip -r zapret_module.zip . -x "README.md" "update.json" ".github/*" ".git/*"  # Исключаем .git и .github
 
       - name: Get previous tag
         id: get_previous_tag
