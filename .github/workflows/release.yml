@@ -21,13 +21,19 @@ jobs:
       - name: Get previous tag
         id: get_previous_tag
         run: |
-          echo "Tag: ${{ steps.previoustag.outputs.tag }}"
-          if git tag | grep -q .; then
-            previous_tag=$(git tag | sort -n | tail -n 1)  # Получаем максимальный тег
+          echo "Fetching tags..."
+          tags=$(git for-each-ref --format='%(refname:short)' refs/tags)
+          echo "Tags found: $tags"
+          
+          if [ -n "$tags" ]; then
+            previous_tag=$(echo "$tags" | sort -n | tail -n 1)  # Получаем максимальный тег
+            echo "Previous tag: $previous_tag"
             new_tag=$((previous_tag + 1))
           else
             new_tag=1
           fi
+          
+          echo "New tag: ${new_tag}"
           echo "new_tag=${new_tag}" >> $GITHUB_ENV
 
       - name: Create new release
