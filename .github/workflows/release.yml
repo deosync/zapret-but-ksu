@@ -32,7 +32,6 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ steps.get_previous_tag.outputs.tag }}.1
-          name: ${{ steps.get_previous_tag.outputs.tag }}.1
           files: release.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
