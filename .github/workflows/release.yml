@@ -32,7 +32,7 @@ jobs:
         id: create_release
         uses: softprops/action-gh-release@v1
         with:
-          tag: ${{ steps.get_previous_tag.outputs.tag }}
+          tag_name: ${{ steps.get_previous_tag.outputs.tag }}
           files: release.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
