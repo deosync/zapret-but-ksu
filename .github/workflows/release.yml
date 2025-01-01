@@ -20,8 +20,12 @@ jobs:
       - name: Get previous tag
         id: get_previous_tag
         run: |
-          previous_tag=$(git describe --tags --abbrev=0)
-          new_tag=$((previous_tag + 1))
+          if git tag | grep -q .; then
+            previous_tag=$(git describe --tags --abbrev=0)
+            new_tag=$((previous_tag + 1))
+          else
+            new_tag=1
+          fi
           echo "::set-output name=tag::$new_tag"
 
       - name: Create new release
