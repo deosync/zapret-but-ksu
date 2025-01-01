@@ -36,52 +36,6 @@ rezka.plus
 hd-rezka.one
 hd-rezka.tv
 ru1.hdreska.net
-*.discord.app:*
-*.discord.com
-*.discord.com:*
-*.discord.gg
-*.discord.gg:*
-*.discord.media
-*.discordapp.com
-*.discordapp.com:*
-*.discordapp.net
-*.discordapp.net:*
-airhorn.solutions
-airhornbot.com
-bigbeans.solutions
-cdn.discordapp.com
-dis.gd
-discord-activities.com
-discord-attachments-uploads-prd.storage.googleapis.com
-discord.app
-discord.co
-discord.com
-discord.design
-discord.dev
-discord.gg
-discord.gift
-discord.gifts
-discord.media
-discord.new
-discord.store
-discord.tools
-discordactivities.com
-discordapp.com
-discordapp.io
-discordapp.net
-discordcdn.com
-discordmerch.com
-discordpartygames.com
-discordsays.com
-discordsez.com
-discordstatus.com
-gateway.discord.gg
-hammerandchisel.ssl.zendesk.com
-images-ext-1.discordapp.net
-media.discordapp.net
-watchanimeattheoffice.com
-www.discord.app
-www.discord.com
 cloudflare-ech.com
 argotunnel.com
 cf-ipfs.com
@@ -196,75 +150,20 @@ twitchadvertising.tv
 twitchcdn.net
 twitchcon.com
 twitchsvc.net
-vod-secure.twitch.tv
-1e100.net
-ggpht.com
-googleusercontent.com
-googlevideo.com
-gstatic.com
-gvt1.com
-l.google.com
-m.youtube.com
-nhacmp3youtube.com
-play.google.com
-wide-youtube.l.google.com
-www.youtube.com
-youtu.be
-youtube-nocookie.com
-youtube-studio.com
-youtube-ui.l.google.com
-youtube.be
-youtube.ca
-youtube.co
-youtube.co.in
-youtube.co.uk
-youtube.com
-youtube.com.au
-youtube.com.br
-youtube.com.mx
-youtube.com.tr
-youtube.com.ua
-youtube.de
-youtube.es
-youtube.fr
-youtube.googleapis.com
-youtube.jp
-youtube.nl
-youtube.pl
-youtube.pt
-youtube.ru
-youtubeapi.com
-youtubechildren.com
-youtubecommunity.com
-youtubecreators.com
-youtubeeducation.com
-youtubeembeddedplayer.googleapis.com
-youtubei.googleapis.com
-youtubekids.com
-yt-video-upload.l.google.com
-yt.be
-yt3.ggpht.com
-ytimg.com
-10tv.app
-7tv.app
-7tv.gg
-7tv.io
-api.7tv.app
-cdn.7tv.app
-cdn.7tv.gg
-emotes.7tv.app
-events.7tv.app
-static.7tv.app
-betterttv.net
-frankerfacez.com
-cdn.betterttv.net
-cdn2.frankerfacez.com
-cdn.frankerfacez.com
-api.ffzap.com
-api.frankerfacez.com
+vod-secure.twitch.tvgoogleads.g.doubleclick.net
+ei.phncdn.com
+api.vk.me
+googleads.g.doubleclick.net
+graph.facebook.com
+soundcloud.com
+www.googleadservices.com
+api.vk.com
+pagead2.googlesyndication.com
 EOL
     chmod 666 "/data/adb/zapret/DPI_list.txt";
 fi;
+
+if ! [ -e "/data/adb/zapret/DPI_ignore.txt" ]; then echo -n "" > "/data/adb/zapret/DPI_ignore.txt"; chmod 666 "/data/adb/zapret/DPI_ignore.txt"; fi;
 
 pidof "$nfqws" > /dev/null && echo "zapret is running" || echo "zapret is not running"
 
@@ -281,11 +180,13 @@ if [ "$1" == "start" ]; then
     use_iptables=$(check_iptables_support)
 
     echo "Starting zapret..."; 
-    hostlist="--hostlist=/data/adb/zapret/DPI_list.txt";
-    config="--filter-udp=443 $hostlist --dpi-desync=fake --dpi-desync-repeats=6 --dpi-desync-fake-quic=/etc/quic_initial_www_google_com.bin --new";
-    config="$config --filter-udp=50000-50099 --ipset=/etc/discord.txt --dpi-desync=fake --dpi-desync-any-protocol --dpi-desync-cutoff=d3 --dpi-desync-repeats=6 --new";
-    config="$config --filter-tcp=80 $hostlist --dpi-desync=fake,split2 --dpi-desync-autottl=2 --dpi-desync-fooling=md5sig --new";
-    config="$config --filter-tcp=443 $hostlist --dpi-desync=fake,multidisorder --dpi-desync-split-pos=1,midsld --dpi-desync-repeats=6 --dpi-desync-fooling=md5sig --dpi-desync-fake-tls=/etc/tls_clienthello_www_google_com.bin";
+    hostlist="--hostlist-auto=/data/adb/zapret/DPI_list.txt --hostlist-exclude=/data/adb/zapret/DPI_ignore.txt";
+    config="--filter-tcp=80 --dpi-desync=fake,fakedsplit --dpi-desync-autottl=2 --dpi-desync-fooling=md5sig $hostlist --new";
+    config="$config --filter-tcp=443 --hostlist=/etc/youtube.txt --dpi-desync=fake,multidisorder --dpi-desync-split-pos=1,midsld --dpi-desync-repeats=11 --dpi-desync-fooling=md5sig --dpi-desync-fake-tls=/etc/tls_clienthello_www_google_com.bin --new";
+    config="$config --filter-tcp=443 --dpi-desync=fake,multidisorder --dpi-desync-split-pos=midsld --dpi-desync-repeats=6 --dpi-desync-fooling=badseq,md5sig $hostlist --new";
+    config="$config --filter-udp=443 --hostlist=/etc/youtube.txt --dpi-desync=fake --dpi-desync-repeats=11 --dpi-desync-fake-quic=/etc/quic_initial_www_google_com.bin --new";
+    config="$config --filter-udp=443 --dpi-desync=fake --dpi-desync-repeats=11 $hostlist --new";
+    config="$config --filter-udp=50000-50099 --ipset=/etc/discord.txt --dpi-desync=fake --dpi-desync-repeats=6 --dpi-desync-any-protocol --dpi-desync-cutoff=n4";
 
     sysctl net.netfilter.nf_conntrack_tcp_be_liberal=1 > /dev/null;
     cbOrig="-m connbytes --connbytes-dir=original --connbytes-mode=packets --connbytes 1:12 -m mark ! --mark 0x40000000/0x40000000";
