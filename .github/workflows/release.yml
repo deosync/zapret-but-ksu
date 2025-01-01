@@ -25,13 +25,14 @@ jobs:
       - name: Get previous tag
         id: get_previous_tag
         run: |
-          echo "::set-output name=tag_name::$(git describe --tags --abbrev=0)"
+          echo "::set-output name=tag::$(git describe --tags --abbrev=0)"
 
       - name: Create new release
         id: create_release
         uses: softprops/action-gh-release@v1
         with:
-          tag: ${{ steps.get_previous_tag.outputs.tag }}.1
+          tag_name: ${{ steps.get_previous_tag.outputs.tag }}.1
+          name: ${{ steps.get_previous_tag.outputs.tag }}.1
           files: release.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
